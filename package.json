@@ -1,0 +1,19 @@
+{
+  "name": "deployjs-angular-build",
+  "version": "0.0.1",
+  "description": "Build Angular projects ready for deployment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "deployjs-plugin"
+  ],
+  "dependencies": {
+    "ember-cli-deploy-plugin": "^0.2.1",
+    "glob": "^7.1.1",
+    "rsvp": "^3.5.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
