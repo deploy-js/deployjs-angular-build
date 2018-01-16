@@ -1,10 +1,9 @@
 /*eslint-env node*/
 'use strict';
 
-var RSVP = require('rsvp');
-var glob  = require('glob');
-var DeployPluginBase = require('ember-cli-deploy-plugin');
-var path = require('path');
+const RSVP = require('rsvp');
+const glob  = require('glob');
+const DeployPluginBase = require('ember-cli-deploy-plugin');
 const exec = require('child_process').exec;
 
 module.exports = {
@@ -16,7 +15,8 @@ module.exports = {
       defaultConfig: {
         environment: 'prod',
         outputPath: 'dist',
-        deployUrl: ''
+        deployUrl: '',
+        baseHref: '/'
       },
 
       build: function(/* context */) {
@@ -24,11 +24,14 @@ module.exports = {
         var outputPath = this.readConfig('outputPath');
         var buildEnv   = this.readConfig('environment');
         var deployUrl  = this.readConfig('deployUrl');
+        var baseHref   = this.readConfig('baseHref');
 
         this.log('building app to `' + outputPath + '` using buildEnv `' + buildEnv + '`...', { verbose: true });
 
         return new RSVP.Promise(function(resolve, reject) {
-          exec('ng build --environment ' + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all ' + (deployUrl ? '--deploy-url=' + deployUrl + path.sep + outputPath : ''),
+          exec('ng build --environment ' + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all'
+            + (deployUrl ? ' --deploy-url=' + deployUrl : '')
+            + (baseHref ? ' --base-href=' + baseHref : ''),
             {maxBuffer: 1024 * 1024 * 32},
             function(err, stdout, stderr)
           {
