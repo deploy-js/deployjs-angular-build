@@ -13,10 +13,11 @@ module.exports = {
     var DeployPlugin = DeployPluginBase.extend({
       name: options.name,
       defaultConfig: {
-        environment: 'prod',
+        environment: 'production',
         outputPath: 'dist',
         deployUrl: '',
-        baseHref: '/'
+        baseHref: '/',
+        oldNgCli: false
       },
 
       build: function(/* context */) {
@@ -25,11 +26,13 @@ module.exports = {
         var buildEnv   = this.readConfig('environment');
         var deployUrl  = this.readConfig('deployUrl');
         var baseHref   = this.readConfig('baseHref');
+        var oldNgCli   = this.readConfig('oldNgCli');
+        var environment = oldNgCli ? '--environment ' + buildEnv : '--configuration=' + buildEnv;
 
         this.log('building app to `' + outputPath + '` using buildEnv `' + buildEnv + '`...', { verbose: true });
 
         return new RSVP.Promise(function(resolve, reject) {
-          exec('ng build --environment ' + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all'
+          exec('ng build ' + environment + ' --output-path ' + outputPath + ' --output-hashing all'
             + (deployUrl ? ' --deploy-url=' + deployUrl : '')
             + (baseHref ? ' --base-href=' + baseHref : ''),
             {maxBuffer: 1024 * 1024 * 32},
