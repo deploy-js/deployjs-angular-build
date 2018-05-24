@@ -14,7 +14,7 @@ module.exports = {
     var DeployPlugin = DeployPluginBase.extend({
       name: options.name,
       defaultConfig: {
-        environment: 'production',
+        environment: 'prod',
         outputPath: 'dist',
         deployUrl: '',
         baseHref: '/'
