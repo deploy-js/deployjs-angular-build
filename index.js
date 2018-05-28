@@ -5,6 +5,7 @@ const RSVP = require('rsvp');
 const glob  = require('glob');
 const DeployPluginBase = require('ember-cli-deploy-plugin');
 const exec = require('child_process').exec;
+const execSync = require ('child_process').execSync;
 
 module.exports = {
   name: 'deployjs-angular-build',
@@ -26,10 +27,20 @@ module.exports = {
         var deployUrl  = this.readConfig('deployUrl');
         var baseHref   = this.readConfig('baseHref');
 
+        var regex = /Angular CLI: ([0-9])\./;
+        var ngCliVersionBuffer = execSync('ng version').toString('utf-8') || '';
+        var substring = ngCliVersionBuffer.match(regex);
+        var ngCliVersion = substring[1] || 1;
+        var environmentOption = ngCliVersion >= 6 ? '--configuration=' : '--environment ';
+
+        if (ngCliVersion >= 6 && buildEnv === 'prod') {
+          buildEnv = 'production';
+        }
+
         this.log('building app to `' + outputPath + '` using buildEnv `' + buildEnv + '`...', { verbose: true });
 
         return new RSVP.Promise(function(resolve, reject) {
-          exec('ng build --environment ' + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all'
+          exec('ng build ' + environmentOption + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all'
             + (deployUrl ? ' --deploy-url=' + deployUrl : '')
             + (baseHref ? ' --base-href=' + baseHref : ''),
             {maxBuffer: 1024 * 1024 * 32},
