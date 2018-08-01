@@ -44,8 +44,8 @@ module.exports = {
         return new RSVP.Promise(function(resolve, reject) {
           exec('ng build ' + environmentOption + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all'
             + (deployUrl ? ' --deploy-url=' + deployUrl : '')
-            + (baseHref ? ' --base-href=' + baseHref : ''),
-            + (aot ? ' --aot' : '')
+            + (baseHref ? ' --base-href=' + baseHref : '')
+            + (aot ? ' --aot' : ''),
             {maxBuffer: 1024 * 1024 * 32},
             function(err, stdout, stderr)
           {

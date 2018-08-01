@@ -1,6 +1,6 @@
 {
   "name": "@deployjs/angular-build",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Build Angular projects ready for deployment",
   "main": "index.js",
   "scripts": {
