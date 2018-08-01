@@ -17,7 +17,8 @@ module.exports = {
         environment: 'prod',
         outputPath: 'dist',
         deployUrl: '',
-        baseHref: '/'
+        baseHref: '/',
+        aot: false
       },
 
       build: function(/* context */) {
@@ -26,6 +27,7 @@ module.exports = {
         var buildEnv   = this.readConfig('environment');
         var deployUrl  = this.readConfig('deployUrl');
         var baseHref   = this.readConfig('baseHref');
+        var aot        = this.readConfig('aot');
 
         var regex = /Angular CLI: ([0-9])\./;
         var ngCliVersionBuffer = execSync('ng version').toString('utf-8') || '';
@@ -43,6 +45,7 @@ module.exports = {
           exec('ng build ' + environmentOption + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all'
             + (deployUrl ? ' --deploy-url=' + deployUrl : '')
             + (baseHref ? ' --base-href=' + baseHref : ''),
+            + (aot ? ' --aot' : '')
             {maxBuffer: 1024 * 1024 * 32},
             function(err, stdout, stderr)
           {
