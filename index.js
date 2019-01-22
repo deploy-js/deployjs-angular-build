@@ -42,7 +42,7 @@ module.exports = {
         this.log('building app to `' + outputPath + '` using buildEnv `' + buildEnv + '`...', { verbose: true });
 
         return new RSVP.Promise(function(resolve, reject) {
-          exec('ng build ' + environmentOption + buildEnv + ' --output-path ' + outputPath + ' --output-hashing all'
+          exec('node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build ' + environmentOption + buildEnv + ' --output-path=' + outputPath + ' --output-hashing=all'
             + (deployUrl ? ' --deploy-url=' + deployUrl : '')
             + (baseHref ? ' --base-href=' + baseHref : '')
             + (aot ? ' --aot' : ''),
