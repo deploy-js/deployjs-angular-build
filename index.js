@@ -29,7 +29,7 @@ module.exports = {
         var baseHref   = this.readConfig('baseHref');
         var aot        = this.readConfig('aot');
 
-        var regex = /Angular CLI: ([0-9])\./;
+        var regex = /Angular CLI: ([0-9]+)\./;
         var ngCliVersionBuffer = execSync('ng version').toString('utf-8') || '';
         var substring = ngCliVersionBuffer.match(regex);
         var ngCliVersion = substring[1] || 1;
